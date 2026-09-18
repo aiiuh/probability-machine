@@ -18,6 +18,15 @@ python3 server.py
 
 Open `http://127.0.0.1:8765`. On macOS, `bash scripts/Start-Lab.command` starts the same loopback-only workbench. This is not a production server.
 
+To create local result files:
+
+```bash
+mkdir -p results
+python3 -m unittest discover -s tests -v > results/unit-tests.txt 2>&1
+python3 experiments.py > results/synthetic-challenges.json
+python3 probability_machine.py plan examples/layout.json > results/layout-certificate.json
+```
+
 ## What exists
 
 - A conclusion function with explicit Bayesian assumptions, source references, and duplicate/dependent-evidence rejection.
@@ -32,9 +41,11 @@ The browser layout collector does not automatically fit a human model. Repeated 
 
 ## Evidence status
 
-`results/synthetic-challenges.json` contains 20 seeded simulations of 20,000 events each. In this deliberately confounded fixture, naive averages chose the wrong layout in 20/20 runs; the three propensity-based estimators chose correctly in 20/20. SNIPS, not DR, had the smallest mean absolute value error in this fixture. This is a regression experiment with known assumptions, not a real-user benchmark.
+The development run executed 20 seeded simulations of 20,000 events each. In this deliberately confounded fixture, naive averages chose the wrong layout in 20/20 runs; the three propensity-based estimators chose correctly in 20/20. SNIPS, not DR, had the smallest mean absolute value error in this fixture. This is a regression experiment with known assumptions, not a real-user benchmark.
 
-`results/unit-tests.txt` records 64 passing tests. JavaScript syntax validation passed. Full browser smoke verification was attempted but blocked by this build environment's browser navigation policy; `scripts/browser_smoke.py` is supplied for an environment that permits loopback browsing. Browser interaction quality, accessibility, live Jev performance, and real-user prediction accuracy are **not validated**.
+All 64 unit/HTTP tests passed in the development environment. JavaScript syntax validation passed. Raw result-log upload was blocked by the connector safety check; the logs are included in the accompanying downloadable project package, not committed here. The commands above regenerate them locally.
+
+Full browser smoke verification was attempted but blocked by the build environment's browser navigation policy. The optional `scripts/browser_smoke.py` requires Playwright and its browser installation, or an explicit `CHROMIUM_PATH`; create the `results` directory before running it. Browser interaction quality, accessibility, live Jev performance, and real-user prediction accuracy are **not validated**.
 
 ## Read next
 
