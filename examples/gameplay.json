@@ -1,0 +1,1 @@
+{"mdp":{"start":{"easy_now":{"reward":7,"next":{"bored":1}},"learn_skill":{"reward":3,"next":{"mastery":1}}},"bored":{"continue":{"reward":1,"next":{"terminal":1}}},"mastery":{"continue":{"reward":8,"next":{"terminal":1}}},"terminal":{"stop":{"reward":0,"next":{"terminal":1}}}},"horizon":2,"discount":0.9}

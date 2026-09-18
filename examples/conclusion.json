@@ -1,0 +1,1 @@
+{"prior":{"reach_cost":0.5,"visual_search":0.5},"evidence":[{"id":"synthetic-trial-1","independence_group":"synthetic-study-1","source":"Synthetic example, not human data","likelihood":{"reach_cost":0.8,"visual_search":0.2}}]}

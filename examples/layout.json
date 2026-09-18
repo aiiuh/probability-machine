@@ -1,0 +1,26 @@
+{
+  "schema_version": "0.3", "model_origin": "synthetic",
+  "prior": {"motor_cost_dominates": 0.5, "discoverability_dominates": 0.5},
+  "objective": {"task_success": 100, "effort_seconds": -2, "enjoyment": 10},
+  "action_budget": 4,
+  "limits": [{"metric": "error_rate", "operator": "max", "value": 0.08}],
+  "actions": {
+    "compact_top": {"cost": 1, "outcomes": {
+      "motor_cost_dominates": {"task_success": 0.80, "effort_seconds": 4, "enjoyment": 0.70, "error_rate": 0.06},
+      "discoverability_dominates": {"task_success": 0.96, "effort_seconds": 2, "enjoyment": 0.85, "error_rate": 0.02}}},
+    "large_near_hand": {"cost": 2, "outcomes": {
+      "motor_cost_dominates": {"task_success": 0.97, "effort_seconds": 1, "enjoyment": 0.85, "error_rate": 0.02},
+      "discoverability_dominates": {"task_success": 0.82, "effort_seconds": 4, "enjoyment": 0.70, "error_rate": 0.06}}},
+    "oversized_overlay": {"cost": 2, "outcomes": {
+      "motor_cost_dominates": {"task_success": 0.99, "effort_seconds": 1, "enjoyment": 0.80, "error_rate": 0.03},
+      "discoverability_dominates": {"task_success": 0.99, "effort_seconds": 1, "enjoyment": 0.90, "error_rate": 0.14}}}
+  },
+  "experiments": {
+    "counterbalanced_layout_test": {"cost": 1,
+      "answers": {"near_hand_wins": {"motor_cost_dominates": 0.85, "discoverability_dominates": 0.15},
+                  "top_wins": {"motor_cost_dominates": 0.15, "discoverability_dominates": 0.85}}},
+    "irrelevant_color_question": {"cost": 0.1,
+      "answers": {"blue": {"motor_cost_dominates": 0.5, "discoverability_dominates": 0.5},
+                  "gray": {"motor_cost_dominates": 0.5, "discoverability_dominates": 0.5}}}
+  }
+}
