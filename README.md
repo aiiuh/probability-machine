@@ -1,59 +1,44 @@
-# Probability Machine
+# Probability Machine — extensible Machine core
 
-**v0.3 — an executable research foundation for choosing actions and reaching evidence-based conclusions.** Product design, interface layout, and gameplay are the first application domains, not the limits of the architecture.
+**v0.4 research branch.** Build a broadly capable assistant by composing verified capabilities, not by turning every task into a probability model. UI/gameplay and incentive research remain optional v0.3 workloads.
 
-The central hypothesis is that incentives and disincentives can provide a useful model of action. We test its predictive and causal usefulness rather than assume that a probability score reveals utility or that knowing reward weights alone guarantees prediction.
+Start with [the core architecture decision](docs/MACHINE_CORE_DECISION.md), [current handoff](CORE_HANDOFF.md), and [research ledger](research/CORE_SOURCES.md). The historical `ASTRA_PRO_HANDOFF.md` UI-first assignment is superseded by `CORE_HANDOFF.md`.
 
-## Run locally
+## Run
 
-Python 3.10+; the core, server, and unit tests use only the standard library. No API key, paid model, or external service is required.
+Python 3.10+. Core, examples and unit/HTTP tests use only the standard library. No model key or paid service is needed.
 
 ```bash
 python3 -m unittest discover -s tests -v
+python3 capability_demo.py
+python3 capability_eval.py
 python3 experiments.py
-python3 probability_machine.py plan examples/layout.json
-python3 probability_machine.py mdp examples/gameplay.json
+```
+
+The complete development suite passed **128 tests**, including the original 64. The new examples execute synthetic data transformations, a wrapper around the existing decision engine, and a verified temporary-file write. The procedure comparison evaluates three hand-written candidates on 50 generated cases; no automatic synthesis or production promotion occurs.
+
+## New modules
+
+`capability_core.py` supplies versioned contracts, bounded discovery, scoped calls, dependency checks, pre-call work reservations, artifact hashes, explicit verification receipts and pure-result reuse. `capability_demo.py` composes these across different workload types. `capability_eval.py` rejects an incorrect cheap candidate instead of selecting it solely on cost.
+
+**This is a trusted synchronous contract reference, not a sandbox, scheduler or durable execution service.** Callbacks must be reviewed. Effect deduplication is only within one Run; a test demonstrates that a new Run can repeat an effect. Production must reuse the existing runtime's persistent effect identity and reconciliation. Declared work units are not dollars, tokens or memory/time limits.
+
+## Evidence
+
+The composed catalogue example retains identical output while reducing the selected intermediate/final JSON bodies from 177,396 bytes to 104 bytes for 5,000 synthetic records. The initial input is common to both and excluded. The same three leaf operations still execute. This is not a measured token, latency or billing improvement.
+
+The new source and tests are in this branch. Full logs, manifests and generated reports are included in the accompanying project ZIP; regenerate them with the commands above. Live model, Monty, DBOS, Weft/Mac and X-bookmark integrations were not executed or verified here.
+
+## Retained v0.3 experiments
+
+The original `probability_machine.py`, synthetic challenges, test suite, [architecture](docs/ARCHITECTURE.md), and [sources](research/SOURCES.md) remain unchanged. They include finite Bayesian/decision calculations, value of information, MDP planning and off-policy/A-B helpers. Example probabilities are invented, not measurements of real people.
+
+The optional local layout workbench remains available:
+
+```bash
 python3 server.py
 ```
 
-Open `http://127.0.0.1:8765`. On macOS, `bash scripts/Start-Lab.command` starts the same loopback-only workbench. This is not a production server.
+Open `http://127.0.0.1:8765`. Browser smoke verification was previously blocked; HTTP tests are not a substitute for browser or human validation.
 
-To create local result files:
-
-```bash
-mkdir -p results
-python3 -m unittest discover -s tests -v > results/unit-tests.txt 2>&1
-python3 experiments.py > results/synthetic-challenges.json
-python3 probability_machine.py plan examples/layout.json > results/layout-certificate.json
-```
-
-## What exists
-
-- A conclusion function with explicit Bayesian assumptions, source references, and duplicate/dependent-evidence rejection.
-- Expected-utility action selection, scenario constraints, a budget, minimax-regret comparison, and one-step value-of-information selection.
-- Exact finite-horizon planning for supplied, fully observed finite MDPs.
-- IPS, self-normalized IPS, and doubly robust contextual-bandit evaluation with support checks.
-- Beta/Bernoulli A/B posterior calculation and an illustrative motor-time model.
-- A browser workbench: edit a decision specification and collect an opt-in, local-only, randomized four-variant layout session.
-- Reproducible synthetic challenges, 64 passing unit/HTTP tests, and a research/build handoff.
-
-The browser layout collector does not automatically fit a human model. Repeated trials are clustered within a session; exports are not independent A/B observations. The included example probabilities and outcome models are synthetic, not measurements of users.
-
-## Evidence status
-
-The development run executed 20 seeded simulations of 20,000 events each. In this deliberately confounded fixture, naive averages chose the wrong layout in 20/20 runs; the three propensity-based estimators chose correctly in 20/20. SNIPS, not DR, had the smallest mean absolute value error in this fixture. This is a regression experiment with known assumptions, not a real-user benchmark.
-
-All 64 unit/HTTP tests passed in the development environment. JavaScript syntax validation passed. Raw result-log upload was blocked by the connector safety check; the logs are included in the accompanying downloadable project package, not committed here. The commands above regenerate them locally.
-
-Full browser smoke verification was attempted but blocked by the build environment's browser navigation policy. The optional `scripts/browser_smoke.py` requires Playwright and its browser installation, or an explicit `CHROMIUM_PATH`; create the `results` directory before running it. Browser interaction quality, accessibility, live Jev performance, and real-user prediction accuracy are **not validated**.
-
-## Read next
-
-- [Architecture and hypotheses](docs/ARCHITECTURE.md)
-- [Research ledger](research/SOURCES.md)
-- [Next build and evaluation assignment](ASTRA_PRO_HANDOFF.md)
-- [Implementation status](STATUS.md)
-
-## Boundaries
-
-The current engine produces recommendations; it does not execute product changes, spend money, or grant permissions. A mathematical optimum is conditional on the candidate set, model, objective, constraints, and horizon. Keep these visible. Do not call model confidence a calibrated probability without testing it. Do not publish participant exports, credentials, private notes, or local-machine details to this public repository.
+This is a public repository. Do not commit credentials, participant exports, private bookmark contents, personal profiles or local-machine details.
